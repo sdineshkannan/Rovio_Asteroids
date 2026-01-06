@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections;
 using TMPro;
@@ -12,6 +13,7 @@ public sealed class UIController : MonoBehaviour
     [SerializeField] private TMP_Text livesText;
     [SerializeField] private TMP_Text waveInfoTxt;
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject landingScreen;
     [SerializeField] private GameObject HUD;
 
     private void OnEnable()
@@ -29,8 +31,15 @@ public sealed class UIController : MonoBehaviour
         GameEvents.LivesChanged -= OnLivesChanged;
         GameEvents.GameOverChanged -= OnGameOverChanged;
     }
+
+    private void Awake()
+    {
+        if(landingScreen != null) landingScreen.SetActive(true);
+    }
+
     public void ShowGameOverScreen(bool visible)
     {
+        if (landingScreen != null) landingScreen.SetActive(false);
         if (gameOverPanel != null) gameOverPanel.SetActive(visible);
         if (HUD != null) HUD.SetActive(!visible);
     }

@@ -12,8 +12,6 @@ public sealed class GameManager : MonoBehaviour
     public bool IsGameOver => _isGameOver;
     private bool _isGameOver;
 
-    private void Start() => Restart();
-
     public void GameOver()
     {
         _isGameOver = true;
@@ -23,6 +21,7 @@ public sealed class GameManager : MonoBehaviour
 
     public void Restart()
     {
+        Debug.Log("Restart");
         _isGameOver = false;
         GameEvents.RaiseGameOverChanged(false);
     }
