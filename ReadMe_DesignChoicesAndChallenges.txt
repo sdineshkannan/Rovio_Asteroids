@@ -11,10 +11,12 @@ Unity Version Used : 6000.3.2f1
 Movements Keys (For simplicity it's using old input system and designed only for Keyboard. It can be easily converted to mobile touch inputs)
 
 Shoot - Space
-Rotate - Left/Right arrows or A/D
-Move Forward - Up Arrow or W 
+Rotate - Left/Right Arrows or A/D Keys
+Move Forward - Up Arrow or W Key
 
 The gameplay values can be adjusted to improve playability. It can be found under Assets/Configs
+
+Used free audio assets from : https://mixkit.co/free-sound-effects/discover/
 
 ==================================
 
