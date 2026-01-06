@@ -23,6 +23,9 @@ Design & Implementation Notes
 Modular, single-responsibility design
 Gameplay is split into focused components (player movement, shooting, health, waves, scoring) to make the code easy to read, test and extend.
 
+Explicit player state management
+Player behavior is controlled via a PlayerState model (Disabled, Active, Dead) rather than booleans. This makes state transitions clear and allows easy extension without refactoring core systems.
+
 Data-driven tuning with ScriptableObjects
 Player, wave progression, and asteroid behavior are configured via ScriptableObjects. This allows balancing and future changes (new asteroid types, difficulty tweaks) without modifying code.
 
