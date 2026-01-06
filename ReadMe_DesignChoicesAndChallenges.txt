@@ -1,3 +1,23 @@
+How to Run:
+
+Unity Version Used : 6000.3.2f1
+
+* Open the project in Standalone, iOS or Android platform
+* Open Assets/Scenes/MainGamePlay scene
+* Set the Display to any landscape mode
+* Hit Run
+
+
+Movements Keys (For simplicity it's using old input system and designed only for Keyboard. It can be easily converted to mobile touch inputs)
+
+Shoot - Space
+Rotate - Left/Right arrows or A/D
+Move Forward - Up Arrow or W 
+
+The gameplay values can be adjusted to improve playability. It can be found under Assets/Configs
+
+==================================
+
 Design & Implementation Notes
 
 Modular, single-responsibility design
