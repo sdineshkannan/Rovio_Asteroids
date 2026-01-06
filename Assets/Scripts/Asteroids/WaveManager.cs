@@ -10,7 +10,6 @@ using Random = UnityEngine.Random;
 public sealed class WaveManager : MonoBehaviour, IAsteroidEvents
 {
     [SerializeField] private PooledAsteroidFactory asteroidFactory;
-    [SerializeField] private ScoreManager score;
     [SerializeField] private WaveConfig waveConfig;
     [SerializeField] private SplitRules splitRules;
     [SerializeField] private PlayerStateController playerStateController;
@@ -106,7 +105,7 @@ public sealed class WaveManager : MonoBehaviour, IAsteroidEvents
     }
     public void OnAsteroidHit(Asteroid asteroid)
     {
-        score.Add(asteroid.Type.score);
+        GameEvents.RaiseScoreAwarded(asteroid.Type.score);
         GameEvents.RaiseExplosionRequested(asteroid.transform.position);
         _alive.Remove(asteroid);
 

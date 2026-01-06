@@ -16,18 +16,27 @@ public sealed class ScoreManager : MonoBehaviour
 
     private void OnEnable()
     {
+        GameEvents.ScoreAwarded += AddScore;
         GameEvents.GameOverChanged += OnGameOverChanged;
     }
 
     private void OnDisable()
     {
+        GameEvents.ScoreAwarded -= AddScore;
         GameEvents.GameOverChanged -= OnGameOverChanged;
     }
 
     private void OnGameOverChanged(bool isGameOver)
     {
-        if (isGameOver) RecordHighScore();
-        else ResetScore();
+        if (isGameOver)
+        {
+            RecordHighScore();
+            GameEvents.RaiseGameOverWithScore(Score, HighScore);
+        }
+        else
+        {
+            ResetScore();
+        }
     }
     
     public void ResetScore()
@@ -36,7 +45,7 @@ public sealed class ScoreManager : MonoBehaviour
         GameEvents.RaiseScoreChanged(Score);
     }
 
-    public void Add(int value)
+    public void AddScore(int value)
     {
         if (value <= 0) return;
 

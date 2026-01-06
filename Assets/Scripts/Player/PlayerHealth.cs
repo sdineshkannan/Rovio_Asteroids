@@ -7,7 +7,6 @@ using UnityEngine;
 public sealed class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private PlayerConfig config;
-    [SerializeField] private GameManager gameManager;
     [SerializeField] private PlayerStateController stateController;
     
     private int _lives;
@@ -53,7 +52,7 @@ public sealed class PlayerHealth : MonoBehaviour
         {
             GameEvents.RaiseExplosionRequested(transform.position);
             stateController.SetState(PlayerState.Dead);
-            gameManager?.GameOver();
+            GameEvents.RaiseGameOverRequested();
         }
         else
         {
