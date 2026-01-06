@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ac67cf8ff36744bca6db5af6ff100e0, type: 3}
+  m_Name: AsteroidsConfig
+  m_EditorClassIdentifier: Assembly-CSharp::AsteroidConfigDatabase
+  types:
+  - {fileID: 11400000, guid: e57c44b1e6d5b4f408bf01d93595c48b, type: 2}
+  - {fileID: 11400000, guid: cd64b7edc98d9442c905acc67962bdbf, type: 2}
+  - {fileID: 11400000, guid: 51b0f83c9ddef44c89d622f99b87672a, type: 2}
