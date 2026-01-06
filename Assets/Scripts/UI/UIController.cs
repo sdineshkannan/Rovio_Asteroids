@@ -19,7 +19,7 @@ public sealed class UIController : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.ScoreChanged += OnScoreChanged;
-        GameEvents.WaveChanged += OnWaveChanged;
+        GameEvents.WaveChangedStarted += OnWaveChangedStarted;
         GameEvents.LivesChanged += OnLivesChanged;
         GameEvents.GameOverChanged += OnGameOverChanged;
     }
@@ -27,7 +27,7 @@ public sealed class UIController : MonoBehaviour
     private void OnDisable()
     {
         GameEvents.ScoreChanged -= OnScoreChanged;
-        GameEvents.WaveChanged -= OnWaveChanged;
+        GameEvents.WaveChangedStarted -= OnWaveChangedStarted;
         GameEvents.LivesChanged -= OnLivesChanged;
         GameEvents.GameOverChanged -= OnGameOverChanged;
     }
@@ -49,7 +49,7 @@ public sealed class UIController : MonoBehaviour
         if (scoreText != null) scoreText.text = $"Score: {score}";
     }
 
-    private void OnWaveChanged(int wave)
+    private void OnWaveChangedStarted(int wave)
     {
         if (waveText != null) waveText.text = $"Wave: {wave}";
         if (waveInfoTxt != null)

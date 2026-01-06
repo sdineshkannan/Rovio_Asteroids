@@ -19,4 +19,5 @@ public sealed class PlayerConfig : ScriptableObject
     [Header("Survivability")]
     public int startLives = 3;
     public float invulnSeconds = 1.0f;
+    public float invulnFlashRate = 0.1f;
 }

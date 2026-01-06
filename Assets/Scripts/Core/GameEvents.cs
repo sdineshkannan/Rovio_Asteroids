@@ -12,8 +12,11 @@ public static class GameEvents
     public static event Action<int> LivesChanged;
     public static void RaiseLivesChanged(int lives) => LivesChanged?.Invoke(lives);
     
-    public static event Action<int> WaveChanged;
-    public static void RaiseWaveChanged(int wave) => WaveChanged?.Invoke(wave);
+    public static event Action<int> WaveChangedStarted;
+    public static void RaiseWaveChangeStart(int wave) => WaveChangedStarted?.Invoke(wave);
+    
+    public static event Action WaveChanged;
+    public static void RaiseWaveChanged() => WaveChanged?.Invoke();
     
     public static event Action<bool> GameOverChanged;
     public static void RaiseGameOverChanged(bool isGameOver) => GameOverChanged?.Invoke(isGameOver);

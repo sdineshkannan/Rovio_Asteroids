@@ -75,12 +75,13 @@ public sealed class WaveManager : MonoBehaviour, IAsteroidEvents
     
     private IEnumerator WaveStartRoutine()
     {
-        GameEvents.RaiseWaveChanged(_wave + 1);
+        GameEvents.RaiseWaveChangeStart(_wave + 1);
         playerStateController.SetState(PlayerState.Disabled);
 
         float delay = waveConfig != null ? waveConfig.timeBetweenWavesSeconds : 0f;
         if (delay > 0f) yield return new WaitForSeconds(delay);
         
+        GameEvents.RaiseWaveChanged();
         NextWave();
         playerStateController.SetState(PlayerState.Active);
     }
