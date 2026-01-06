@@ -19,6 +19,9 @@ public sealed class AsteroidTypeConfig : ScriptableObject
     public float minAngularVelocity = -90f;
     public float maxAngularVelocity = 90f;
 
+    [Header("Scoring")]
+    public int score = 10;
+
     [Header("Pooling")]
     public int prewarmCount = 10;
 

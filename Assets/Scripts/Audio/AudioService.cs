@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Simple Audio Service
+/// </summary>
 public sealed class AudioService : MonoBehaviour
 {
     [SerializeField] private SoundConfig config;
@@ -11,7 +14,7 @@ public sealed class AudioService : MonoBehaviour
         _source = gameObject.AddComponent<AudioSource>();
         _source.playOnAwake = false;
         _source.loop = false;
-        _source.spatialBlend = 0f; // 2D audio
+        _source.spatialBlend = 0f; 
     }
 
     private void OnEnable()

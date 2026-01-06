@@ -6,27 +6,41 @@ using UnityEngine;
 /// </summary>
 public sealed class ScoreManager : MonoBehaviour
 {
-    [SerializeField] private AsteroidTypeDatabase asteroidConfigs;
-    [SerializeField] private ScoringConfig scoring;
-
     public int Score { get; private set; }
-    
+
     public int HighScore 
     { 
         get => PlayerPrefs.GetInt("HighScore", 0);
         set => PlayerPrefs.SetInt("HighScore", value); 
     }
 
+    private void OnEnable()
+    {
+        GameEvents.GameOverChanged += OnGameOverChanged;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.GameOverChanged -= OnGameOverChanged;
+    }
+
+    private void OnGameOverChanged(bool isGameOver)
+    {
+        if (isGameOver) RecordHighScore();
+        else ResetScore();
+    }
+    
     public void ResetScore()
     {
         Score = 0;
         GameEvents.RaiseScoreChanged(Score);
     }
 
-    public void AddScoreFor(AsteroidSize size)
+    public void Add(int value)
     {
-        int points = scoring != null ? scoring.GetPoints(size) : 0;
-        Score += points;
+        if (value <= 0) return;
+
+        Score += value;
         GameEvents.RaiseScoreChanged(Score);
     }
 

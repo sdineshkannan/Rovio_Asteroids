@@ -20,5 +20,6 @@ MonoBehaviour:
   maxSpeed: 6
   minAngularVelocity: -90
   maxAngularVelocity: 90
+  score: 100
   prewarmCount: 10
   prefabOverride: {fileID: 0}

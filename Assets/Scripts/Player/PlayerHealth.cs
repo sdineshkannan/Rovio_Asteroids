@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -11,6 +12,21 @@ public sealed class PlayerHealth : MonoBehaviour
     
     private int _lives;
     private float _invulnUntil;
+
+    private void OnEnable()
+    {
+        GameEvents.GameOverChanged += OnGameOverChanged;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.GameOverChanged -= OnGameOverChanged;
+    }
+
+    private void OnGameOverChanged(bool isGameOver)
+    {
+        if (!isGameOver) ResetLives();
+    }
 
     public void ResetLives()
     {

@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Manages wave logic and asteroid spawning
@@ -26,6 +28,21 @@ public sealed class WaveManager : MonoBehaviour, IAsteroidEvents
     private Coroutine _waveRoutine;
 
     public int CurrentWave => _wave;
+
+    private void OnEnable()
+    {
+        GameEvents.GameOverChanged += OnGameOverChanged;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.GameOverChanged -= OnGameOverChanged;
+    }
+
+    private void OnGameOverChanged(bool isGameOver)
+    {
+        if (!isGameOver) StartNewGame();
+    }
 
     private void Awake()
     {
@@ -89,7 +106,7 @@ public sealed class WaveManager : MonoBehaviour, IAsteroidEvents
     }
     public void OnAsteroidHit(Asteroid asteroid)
     {
-        score.AddScoreFor(asteroid.Size);
+        score.Add(asteroid.Type.score);
         GameEvents.RaiseExplosionRequested(asteroid.transform.position);
         _alive.Remove(asteroid);
 

@@ -13,6 +13,8 @@ public sealed class Asteroid : MonoBehaviour, IPoolable
 
     public AsteroidSize Size => size;
 
+    private AsteroidTypeConfig _type;
+    public AsteroidTypeConfig Type => _type;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -25,7 +27,8 @@ public sealed class Asteroid : MonoBehaviour, IPoolable
     {
         _events = eventsSink;
         _recycler = recycler;
-
+        _type = type;
+        
         if (_sr != null && type.sprite != null) _sr.sprite = type.sprite;
         transform.localScale = Vector3.one * type.scale;
 
