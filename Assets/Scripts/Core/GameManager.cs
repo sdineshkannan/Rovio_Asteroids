@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Manages game state and events
+/// </summary>
 public sealed class GameManager : MonoBehaviour
 {
     [SerializeField] private PlayerHealth player;
@@ -17,14 +20,14 @@ public sealed class GameManager : MonoBehaviour
     {
         _isGameOver = true;
         score?.RecordHighScore();
-        if (ui != null) ui.SetGameOverVisible(true);
+        if (ui != null) ui.ShowGameOverScreen(true);
         GameEvents.RaiseGameOverChanged(true);
     }
 
     public void Restart()
     {
         _isGameOver = false;
-        if (ui != null) ui.SetGameOverVisible(false);
+        if (ui != null) ui.ShowGameOverScreen(false);
 
         GameEvents.RaiseGameOverChanged(false);
         

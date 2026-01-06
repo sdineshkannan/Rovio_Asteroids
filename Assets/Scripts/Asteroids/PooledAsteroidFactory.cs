@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Manages asteroid pooling and factory logic
+/// </summary>
 public sealed class PooledAsteroidFactory : MonoBehaviour, IAsteroidFactory, IAsteroidRecycler
 {
     [Header("Shared prefab (used when type.prefabOverride is null)")]
@@ -16,7 +19,6 @@ public sealed class PooledAsteroidFactory : MonoBehaviour, IAsteroidFactory, IAs
     private ScreenBounds _cachedBounds;
     private float _lastPadding = -1f;
 
-    // Pools per type config (best separation)
     private readonly Dictionary<AsteroidTypeConfig, ObjectPool<Asteroid>> _pools = new();
 
     private void Awake()

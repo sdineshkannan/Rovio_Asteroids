@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Manages explosion fx and pooling
+/// </summary>
 [RequireComponent(typeof(Animator))]
 public sealed class ExplosionFx : MonoBehaviour, IPoolable
 {
@@ -19,17 +22,17 @@ public sealed class ExplosionFx : MonoBehaviour, IPoolable
         _anim.Update(0f);
     }
 
+    public void OnAnimationFinished()
+    {
+        if (_pool != null) _pool.Release(this);
+        else gameObject.SetActive(false);
+    }
+    
     public void OnReturnedToPool()
     {
     }
 
     public void OnTakenFromPool()
     {
-    }
-
-    public void OnAnimationFinished()
-    {
-        if (_pool != null) _pool.Release(this);
-        else gameObject.SetActive(false);
     }
 }

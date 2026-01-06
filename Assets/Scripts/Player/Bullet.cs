@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Manages bullet behavior and pooling
+/// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 public sealed class Bullet : MonoBehaviour, IPoolable
 {

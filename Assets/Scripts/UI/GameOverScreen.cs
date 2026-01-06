@@ -1,6 +1,10 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
+/// <summary>
+/// Manages game over screen logic
+/// </summary>
 public sealed class GameOverScreen : MonoBehaviour
 {
     [SerializeField] private TMP_Text scoreText;

@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Manages wave logic and asteroid spawning
+/// </summary>
 public sealed class WaveManager : MonoBehaviour, IAsteroidEvents
 {
     [SerializeField] private PooledAsteroidFactory asteroidFactory;
     [SerializeField] private ScoreManager score;
     [SerializeField] private WaveConfig waveConfig;
     [SerializeField] private SplitRules splitRules;
-
+    [SerializeField] private PlayerStateController playerStateController;
+    
     private IAsteroidFactory _factory;
     private IAsteroidRecycler _recycler;
 
@@ -18,6 +22,8 @@ public sealed class WaveManager : MonoBehaviour, IAsteroidEvents
     private int _baseAsteroidCount;
     private int _asteroidsPerWaveIncrement;
     private int _maxAsteroidsPerWave;
+
+    private Coroutine _waveRoutine;
 
     public int CurrentWave => _wave;
 
@@ -32,6 +38,7 @@ public sealed class WaveManager : MonoBehaviour, IAsteroidEvents
         _factory = asteroidFactory;
         _recycler = asteroidFactory;
         
+        // Initialize wave variables once
         _baseAsteroidCount = waveConfig != null ? waveConfig.startAsteroids : 4;
         _asteroidsPerWaveIncrement = waveConfig != null ? waveConfig.asteroidsPerWaveIncrement : 1;
         _maxAsteroidsPerWave = waveConfig != null ? waveConfig.maxAsteroidsPerWave : 999;
@@ -41,22 +48,25 @@ public sealed class WaveManager : MonoBehaviour, IAsteroidEvents
     {
         ClearAll();
         _wave = 0;
-        GameEvents.RaiseWaveChanged(_wave);
-        NextWave();
-    }
+        
+        playerStateController.SetState(PlayerState.Disabled);
 
-    private void ClearAll()
-    {
-        foreach (var a in _alive)
-            if (a != null) _recycler?.Release(a);
-        _alive.Clear();
-    }
+        if (_waveRoutine != null)
+            StopCoroutine(_waveRoutine);
 
-    private IEnumerator NextWaveDelayed()
+        _waveRoutine = StartCoroutine(WaveStartRoutine());
+    }
+    
+    private IEnumerator WaveStartRoutine()
     {
+        GameEvents.RaiseWaveChanged(_wave + 1);
+        playerStateController.SetState(PlayerState.Disabled);
+
         float delay = waveConfig != null ? waveConfig.timeBetweenWavesSeconds : 0f;
         if (delay > 0f) yield return new WaitForSeconds(delay);
+        
         NextWave();
+        playerStateController.SetState(PlayerState.Active);
     }
 
     private void NextWave()
@@ -68,7 +78,6 @@ public sealed class WaveManager : MonoBehaviour, IAsteroidEvents
         }
         
         _wave++;
-        GameEvents.RaiseWaveChanged(_wave);
         
         int count = Mathf.Min(_maxAsteroidsPerWave, _baseAsteroidCount + (_wave - 1) * _asteroidsPerWaveIncrement);
 
@@ -80,7 +89,7 @@ public sealed class WaveManager : MonoBehaviour, IAsteroidEvents
     }
     public void OnAsteroidHit(Asteroid asteroid)
     {
-        score.AddFor(asteroid.Size);
+        score.AddScoreFor(asteroid.Size);
         GameEvents.RaiseExplosionRequested(asteroid.transform.position);
         _alive.Remove(asteroid);
 
@@ -90,6 +99,7 @@ public sealed class WaveManager : MonoBehaviour, IAsteroidEvents
             return;
         }
 
+        // Split asteroid if it has a split rule
         if (splitRules != null && splitRules.TryGetRule(asteroid.Size, out var rule))
         {
             for (int i = 0; i < rule.pieces; i++)
@@ -100,6 +110,14 @@ public sealed class WaveManager : MonoBehaviour, IAsteroidEvents
             }
         }
 
-        if (_alive.Count == 0) StartCoroutine(NextWaveDelayed());
+        // If all asteroids are destroyed, start next wave
+        if (_alive.Count == 0) StartCoroutine(WaveStartRoutine());
+    }
+    
+    private void ClearAll()
+    {
+        foreach (var a in _alive)
+            if (a != null) _recycler?.Release(a);
+        _alive.Clear();
     }
 }

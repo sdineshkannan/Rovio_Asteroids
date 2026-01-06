@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Manages score and high score
+/// </summary>
 public sealed class ScoreManager : MonoBehaviour
 {
     [SerializeField] private AsteroidTypeDatabase asteroidConfigs;
@@ -20,7 +23,7 @@ public sealed class ScoreManager : MonoBehaviour
         GameEvents.RaiseScoreChanged(Score);
     }
 
-    public void AddFor(AsteroidSize size)
+    public void AddScoreFor(AsteroidSize size)
     {
         int points = scoring != null ? scoring.GetPoints(size) : 0;
         Score += points;

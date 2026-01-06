@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Generic object pool implementation
+/// </summary>
 public sealed class ObjectPool<T> where T : Component
 {
     private readonly T _prefab;

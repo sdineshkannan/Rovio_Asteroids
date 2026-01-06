@@ -1,12 +1,16 @@
 using UnityEngine;
-using UnityEngine.UI;
+using System.Collections;
 using TMPro;
 
+/// <summary>
+/// Manages UI elements and events
+/// </summary>
 public sealed class UIController : MonoBehaviour
 {
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text waveText;
     [SerializeField] private TMP_Text livesText;
+    [SerializeField] private TMP_Text waveInfoTxt;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject HUD;
 
@@ -25,7 +29,7 @@ public sealed class UIController : MonoBehaviour
         GameEvents.LivesChanged -= OnLivesChanged;
         GameEvents.GameOverChanged -= OnGameOverChanged;
     }
-    public void SetGameOverVisible(bool visible)
+    public void ShowGameOverScreen(bool visible)
     {
         if (gameOverPanel != null) gameOverPanel.SetActive(visible);
         if (HUD != null) HUD.SetActive(!visible);
@@ -39,6 +43,18 @@ public sealed class UIController : MonoBehaviour
     private void OnWaveChanged(int wave)
     {
         if (waveText != null) waveText.text = $"Wave: {wave}";
+        if (waveInfoTxt != null)
+        {
+            waveInfoTxt.gameObject.SetActive(true);
+            waveInfoTxt.text = $"Wave {wave}";
+            StartCoroutine(HideWaveInfo());
+        }
+    }
+    
+    private IEnumerator HideWaveInfo()
+    {
+        yield return new WaitForSeconds(2f);
+        waveInfoTxt.gameObject.SetActive(false);
     }
 
     private void OnLivesChanged(int lives)
@@ -48,6 +64,6 @@ public sealed class UIController : MonoBehaviour
 
     private void OnGameOverChanged(bool isGameOver)
     {
-        SetGameOverVisible(isGameOver);
+        ShowGameOverScreen(isGameOver);
     }
 }

@@ -1,11 +1,14 @@
 using UnityEngine;
 
+/// <summary>
+/// Controls player movement and rotation
+/// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 public sealed class PlayerController : MonoBehaviour
 {
     [SerializeField] private PlayerConfig config;
-
-
+    [SerializeField] private PlayerStateController stateController;
+    
     private Rigidbody2D _rb;
 
     private void Awake()
@@ -21,7 +24,7 @@ public sealed class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (config == null) return;
+        if (!stateController.IsActive || config == null) return;
 
         float turn = -Input.GetAxisRaw("Horizontal");
         float thrust = Mathf.Clamp01(Input.GetAxisRaw("Vertical"));
