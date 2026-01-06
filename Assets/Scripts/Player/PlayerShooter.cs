@@ -33,7 +33,7 @@ public sealed class PlayerShooter : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             _factory.Create(muzzle.position, muzzle.rotation, muzzle.up);
-
+            GameEvents.RaiseShootRequested();
             _nextFireTime = Time.time + config.fireCooldown;
         }
     }
